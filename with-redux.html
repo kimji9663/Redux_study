@@ -11,6 +11,8 @@
             }
         </style>
         <div id="red"></div>
+        <div id="blue"></div>
+        <div id="green"></div>
         <script>
             function reducer(state, action){ // 현재의 state 값을 복제한 후 그 복제한 state를 변경하여 return 하여야 한다.
                 console.log(state, action);
@@ -19,7 +21,7 @@
                 }
                 var newState;
                 if(action.type === 'CHANGE_COLOR'){
-                    newState = Object.assign({}, state, {color:'red'}); // state를 복제.
+                    newState = Object.assign({}, state, {color:action.color}); // state를 복제.
                     state.color = 'red';
                 }
                 return newState;
@@ -37,7 +39,36 @@
                 </div>
                 `;
             }
+            store.subscribe(red);
             red();
+
+            function blue(){
+                var state = store.getState();
+                document.querySelector('#blue').innerHTML = `
+                <div class="container" id="component_red" style="background-color:${state.color}">
+                    <h1>blue</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'blue'});
+                    ">
+                </div>
+                `;
+            }
+            store.subscribe(blue);
+            blue();
+
+            function green(){
+                var state = store.getState();
+                document.querySelector('#green').innerHTML = `
+                <div class="container" id="component_red" style="background-color:${state.color}">
+                    <h1>green</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({type:'CHANGE_COLOR', color:'green'});
+                    ">
+                </div>
+                `;
+            }
+            store.subscribe(green);
+            green();
         </script>
     </body>
 </html>
